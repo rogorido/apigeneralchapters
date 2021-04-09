@@ -28,7 +28,10 @@ class FilterSet {
 
     // empezamos con temas q en principio ahora mismo siempre existe
     f.push("$(theme) && temas");
-    if (this.filters["understood"]) f.push("understood = ${understood}");
+
+    // si understood es all no ponemos el filtro, solo si es false/true
+    if (this.filters["understood"] && this.filters["understood"] != "all")
+      f.push("understood = ${understood}");
 
     if (this.filters["date_begin"])
       f.push("(date_beginning between ${date_begin} and ${date_end})");
