@@ -42,11 +42,11 @@ class FilterSet {
     // hay que convertir el array q tenemos  en un string con and
     // pq es lo q pidepgp.as.format
     let ff = f.join(" and ");
-    let where = pgp.as.format(ff, this.filters);
+    let wheresql = pgp.as.format(ff, this.filters);
 
     // devolvemos un array pq realmente tenemos tres varialbes que completar
     // fecha de inico, fecha fin y luego el WHERE enorme
-    return [this.filters.datebegin, this.filters.dateend, where];
+    return [this.filters.datebegin, this.filters.dateend, wheresql];
   }
 }
 
