@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node index.js",
-    "dev": "nodemon index.js"
+    "dev": "nodemon -e js,sql,json index.js"
   },
   "author": "Igor Sosa Mayor <joseleopoldo1792@gmail.com>",
   "license": "ISC",
