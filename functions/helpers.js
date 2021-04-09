@@ -33,14 +33,20 @@ class FilterSet {
     if (this.filters["understood"] && this.filters["understood"] != "all")
       f.push("understood = ${understood}");
 
+    // realmente solo comprobamos si es verdad
+    if (this.filters.look_again == "true") f.push("look_again = ${look_again}");
+
     if (this.filters["date_begin"])
       f.push("(date_beginning between ${date_begin} and ${date_end})");
 
     // hay que convertir el array q tenemos  en un string con and
     // pq es lo q pidepgp.as.format
     let ff = f.join(" and ");
+    let where = pgp.as.format(ff, this.filters);
 
-    return pgp.as.format(ff, this.filters);
+    // devolvemos un array pq realmente tenemos tres varialbes que completar
+    // fecha de inico, fecha fin y luego el WHERE enorme
+    return [this.filters.datebegin, this.filters.dateend, where];
   }
 }
 
