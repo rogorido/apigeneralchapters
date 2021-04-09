@@ -41,7 +41,18 @@ app.use(
 );
 
 app.get("/themes/", dbFunctions.getThemesList);
-app.get("/themesstats/", dbFunctions.getThemesStats);
+app.get("/themes/stats/", dbFunctions.getThemesStats);
+app.get("/capgens/", dbFunctions.getCapGensStats);
+app.get("/resolutions/stats/", dbFunctions.getResolutionsTypesStats);
+app.get("/resolutions/lookagain/", dbFunctions.getResolutionsLookAgain);
+app.get("/resolutions/", dbFunctions.getResolutionsWithFilters);
+app.get("/sufragios/stats/", dbFunctions.getSufragiosStats);
+
+// para comboboxes y demás
+app.get("/houses/origin/", dbFunctions.getHousesOriginAffiliation);
+app.get("/houses/destination/", dbFunctions.getHousesDestinationAffiliation);
+app.get("/licences/stats/", dbFunctions.getLicencesStats);
+app.get("/prohibitions/", dbFunctions.getProhibitions);
 
 app.listen(process.env.PORT, () => {
   console.log(`Server is running on http://localhost:${process.env.PORT}/`);
