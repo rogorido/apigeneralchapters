@@ -1,8 +1,4 @@
-const initOptions = {
-  // query(e) {
-  //   console.log(e.query);
-  // },
-};
+const initOptions = {};
 const pgp = require("pg-promise")(initOptions);
 const db = pgp("postgres://igor@localhost:5432/dominicos");
 
@@ -105,7 +101,7 @@ async function getResolutionsWithFilters(req, res) {
 
   console.log("Los parámetros son:", queryparams);
   // necesitamos pasar el elemento theme a un array de integers
-  queryparams["theme"] = queryparams["theme"].map((i) => parseInt(i));
+  queryparams.theme = queryparams.theme.map((i) => parseInt(i));
 
   // formateamos el SQL del file con lo que nos devuelve
   // la clase FilterSet de todos los parámetros de la query
