@@ -8,7 +8,7 @@ const pgp = require("pg-promise")();
 
 // esto son los llamados Custom Type Formatting
 // https://github.com/vitaly-t/pg-promise#custom-type-formatting
-class FilterSet {
+class FilterSetThemes {
   constructor(filters) {
     if (!filters || typeof filters !== "object") {
       throw new TypeError("Parameter 'filters' must be an object.");
@@ -26,8 +26,50 @@ class FilterSet {
     // que ponen en la docu, pq no puedo hacer un simple map.
     let f = [];
 
-    // empezamos con temas q en principio ahora mismo siempre existe
-    f.push("$(theme) && temas");
+    if (this.filters.theme) f.push("$(theme) && temas");
+
+    // si understood es all no ponemos el filtro, solo si es false/true
+    if (this.filters["understood"] && this.filters["understood"] != "all")
+      f.push("understood = ${understood}");
+
+    // realmente solo comprobamos si es verdad
+    if (this.filters.look_again == "true") f.push("look_again = ${look_again}");
+
+    if (this.filters["date_begin"])
+      f.push("(date_beginning between ${date_begin} and ${date_end})");
+
+    // hay que convertir el array q tenemos  en un string con and
+    // pq es lo q pidepgp.as.format
+    let ff = f.join(" and ");
+    let wheresql = pgp.as.format(ff, this.filters);
+
+    // console.log(wheresql);
+    // devolvemos un array pq realmente tenemos tres varialbes que completar
+    // fecha de inico, fecha fin y luego el WHERE enorme
+    return [this.filters.datebegin, this.filters.dateend, wheresql];
+  }
+}
+
+// esto rtt repite la funcionalidad de lo anteriro. Habría q ver como combinarlo
+class FilterSetProvinces {
+  constructor(filters) {
+    if (!filters || typeof filters !== "object") {
+      throw new TypeError("Parameter 'filters' must be an object.");
+    }
+    this.filters = filters;
+    this.rawType = true; // do not escape the result from toPostgres()
+  }
+
+  toPostgres(/*self*/) {
+    // esto es un poco cutre, tal vez se podría hacer con esto
+    // https://stackoverflow.com/questions/684672/how-do-i-loop-through-or-enumerate-a-javascript-object
+    // para ir accediendo cada elemento del objeto
+
+    // el problema de mi sistema es q es muy complejo comparado con el ejemplo
+    // que ponen en la docu, pq no puedo hacer un simple map.
+    let f = [];
+
+    if (this.filters.province) f.push("$(province) && provinces");
 
     // si understood es all no ponemos el filtro, solo si es false/true
     if (this.filters["understood"] && this.filters["understood"] != "all")
@@ -56,4 +98,4 @@ function readSQL(file) {
   return new pgp.QueryFile(fullPath, { minify: true });
 }
 
-module.exports = { FilterSet, readSQL };
+module.exports = { FilterSetThemes, FilterSetProvinces, readSQL };
