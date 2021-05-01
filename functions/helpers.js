@@ -26,7 +26,16 @@ class FilterSetGeneral {
     // que ponen en la docu, pq no puedo hacer un simple map.
     let f = [];
 
-    if (this.filters.theme) f.push("$(theme) && temas");
+    if ("theme" in this.filters) {
+      console.log("hay temas");
+      let temas = this.filters.theme.map((t) => "theme_id = " + t);
+      let temasstring = "";
+      if (this.filters.withand === true)
+        temasstring = "(" + temas.join(" AND ") + ")";
+      else temasstring = "(" + temas.join(" OR ") + ")";
+
+      f.push(temasstring);
+    }
 
     // lo de rp.province_id viene de que es una CTE que tiene como alias rp
     if ("province" in this.filters) {
