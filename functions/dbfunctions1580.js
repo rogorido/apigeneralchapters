@@ -45,6 +45,9 @@ const sqlProvincesStats = readSQL("../sql/1580/capgens_provinces_stats.sql");
 const sqlProvincesDetails = readSQL(
   "../sql/1580/capgens_provinces_details.sql"
 );
+const sqlProvincesDetailsThemes = readSQL(
+  "../sql/1580/capgens_provinces_details_themes.sql"
+);
 
 // para ver cosas así rápido tb para meter los datos orientándome
 const sqlLicencesStats = readSQL("../sql/1580/licences_stats.sql");
@@ -251,9 +254,13 @@ async function getAprobationsStats(req, res) {
 
 async function getProvincesDetails(req, res) {
   const province = req.query.province;
-  const rowList = await db.query(sqlProvincesDetails, province);
+  const rowListDetails = await db.query(sqlProvincesDetails, province);
+  const rowListDetailsThemes = await db.query(
+    sqlProvincesDetailsThemes,
+    province
+  );
 
-  res.send(rowList);
+  res.send({ details: rowListDetails, themes: rowListDetailsThemes });
 }
 
 module.exports = {
