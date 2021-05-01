@@ -10,6 +10,8 @@ const { FilterSetThemes, FilterSetProvinces, readSQL } = require("./helpers");
 // Es necesario crearlo aquí globalmente y no en la función concreta
 // por no sé cuestión interna...
 // const sqlFindWork = readSQL("./sql/works.sql");
+
+const sqlGeneralData = readSQL("../sql/resolutions_per_chapter.sql");
 const sqlThemesList = readSQL("../sql/themes_list.sql");
 const sqlThemesStats = readSQL("../sql/themes_list_count.sql");
 const sqlThemesDetails = readSQL("../sql/themes_details.sql");
@@ -61,6 +63,26 @@ const sqlAffiliationsDestinations = readSQL(
 );
 
 const sqlPenasStats = readSQL("../sql/penas_stats.sql");
+
+async function getGeneralData(req, res) {
+  const nResolutionsPerChapter = await db.query(sqlGeneralData);
+  const nResolutions = await db.query(
+    "SELECT COUNT(*) as total FROM resolutions"
+  );
+  const nResolutionsThemes = await db.query(
+    "SELECT COUNT(*) as total FROM resolutions_themes"
+  );
+  const nResolutionsDetails = await db.query(
+    "SELECT COUNT(*) as total FROM resolutions_details"
+  );
+
+  res.send({
+    nResolutionsPerChapter: nResolutionsPerChapter,
+    nResolutions: nResolutions,
+    nResolutionsThemes: nResolutionsThemes,
+    nResolutionsDetails: nResolutionsDetails,
+  });
+}
 
 async function getThemesList(req, res) {
   const rowList = await db.query(sqlThemesList);
@@ -226,6 +248,7 @@ async function getProvincesDetails(req, res) {
 }
 
 module.exports = {
+  getGeneralData,
   getThemesList,
   getThemesStats,
   getThemesDetails,

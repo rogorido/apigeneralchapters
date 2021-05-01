@@ -5,7 +5,7 @@ const compression = require("compression");
 const rateLimit = require("express-rate-limit");
 const morgan = require("morgan");
 const cors = require("cors");
-const dbFunctions = require("./functions/dbfunctions");
+const dbFunctions = require("./functions/dbfunctions1580");
 
 require("dotenv").config();
 
@@ -36,10 +36,12 @@ app.use(
       "https://dbg.georeligion.org",
       "http://localhost:8000",
       "http://localhost:8080",
+      "http://192.168.1.10:8080",
     ],
   })
 );
 
+app.get("/generaldata/", dbFunctions.getGeneralData);
 app.get("/themes/", dbFunctions.getThemesList);
 app.get("/themes/stats/", dbFunctions.getThemesStats);
 app.get("/themes/details/", dbFunctions.getThemesDetails);
