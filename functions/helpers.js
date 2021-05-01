@@ -30,9 +30,10 @@ class FilterSetGeneral {
       console.log("hay temas");
       let temas = this.filters.theme.map((t) => "theme_id = " + t);
       let temasstring = "";
-      if (this.filters.withand === true)
+      if (this.filters.withand === "true") {
+        console.log("es verdadero el withand");
         temasstring = "(" + temas.join(" AND ") + ")";
-      else temasstring = "(" + temas.join(" OR ") + ")";
+      } else temasstring = "(" + temas.join(" OR ") + ")";
 
       f.push(temasstring);
     }
