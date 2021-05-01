@@ -5,7 +5,7 @@ const db = pgp("postgres://igor@localhost:5432/dominicos");
 const monitor = require("pg-monitor");
 monitor.attach(initOptions);
 
-const { FilterSetThemes, FilterSetProvinces, readSQL } = require("./helpers");
+const { FilterSetGeneral, FilterSetProvinces, readSQL } = require("./helpers");
 
 // Es necesario crearlo aquí globalmente y no en la función concreta
 // por no sé cuestión interna...
@@ -174,7 +174,7 @@ async function getResolutionsWithFilters(req, res) {
   // la clase FilterSet de todos los parámetros de la query
   var querysql = pgp.as.format(
     sqlFindResolutionsWithFilters,
-    new FilterSetThemes(queryparams)
+    new FilterSetGeneral(queryparams)
   );
   console.log(querysql);
   rowList = await db.query(querysql);

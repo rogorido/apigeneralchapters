@@ -8,7 +8,7 @@ const db = pgp("postgres://igor@localhost:5432/dominicos");
 const monitor = require("pg-monitor");
 monitor.attach(initOptions);
 
-const { FilterSetThemes, FilterSetProvinces, readSQL } = require("./helpers");
+const { FilterSetGeneral, FilterSetProvinces, readSQL } = require("./helpers");
 
 // Es necesario crearlo aquí globalmente y no en la función concreta
 // por no sé cuestión interna...
@@ -169,23 +169,38 @@ async function getResolutionsWithFilters(req, res) {
   let rowList = [];
   const queryparams = req.query;
 
+  console.log("los parametros antes de manipular son", queryparams);
+
   // necesitamos convertir lo de themes en un array en el caso de q
   // no lo sea, que es cuando solo viene uno
-  queryparams.theme = Array.isArray(queryparams.theme)
-    ? queryparams.theme
-    : [queryparams.theme];
+  if (queryparams.theme) {
+    queryparams.theme = Array.isArray(queryparams.theme)
+      ? queryparams.theme
+      : [queryparams.theme];
 
-  // console.log("Los parámetros son:", queryparams);
-  // necesitamos pasar el elemento theme a un array de integers
-  queryparams.theme = queryparams.theme.map((i) => parseInt(i));
+    // necesitamos pasar el elemento theme a un array de integers
+    queryparams.theme = queryparams.theme.map((i) => parseInt(i));
+  }
 
+  // necesitamos convertir lo de provinces en un array en el caso de q
+  // no lo sea, que es cuando solo viene uno
+  if (queryparams.province) {
+    queryparams.province = Array.isArray(queryparams.province)
+      ? queryparams.province
+      : [queryparams.province];
+
+    // necesitamos pasar el elemento theme a un array de integers
+    queryparams.province = queryparams.province.map((i) => parseInt(i));
+  }
+
+  console.log("los parametros son", queryparams);
   // formateamos el SQL del file con lo que nos devuelve
   // la clase FilterSet de todos los parámetros de la query
   var querysql = pgp.as.format(
     sqlFindResolutionsWithFilters,
-    new FilterSetThemes(queryparams)
+    new FilterSetGeneral(queryparams)
   );
-  console.log(querysql);
+  // console.log(querysql);
   rowList = await db.query(querysql);
 
   res.send(rowList);

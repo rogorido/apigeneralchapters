@@ -8,7 +8,7 @@ const pgp = require("pg-promise")();
 
 // esto son los llamados Custom Type Formatting
 // https://github.com/vitaly-t/pg-promise#custom-type-formatting
-class FilterSetThemes {
+class FilterSetGeneral {
   constructor(filters) {
     if (!filters || typeof filters !== "object") {
       throw new TypeError("Parameter 'filters' must be an object.");
@@ -27,6 +27,14 @@ class FilterSetThemes {
     let f = [];
 
     if (this.filters.theme) f.push("$(theme) && temas");
+
+    // lo de rp.province_id viene de que es una CTE que tiene como alias rp
+    if ("province" in this.filters) {
+      console.log("hay provincias");
+      let provinces = this.filters.province.map((p) => "rp.province_id = " + p);
+      let provincesor = "(" + provinces.join(" OR ") + ")";
+      f.push(provincesor);
+    }
 
     // si understood es all no ponemos el filtro, solo si es false/true
     if (this.filters["understood"] && this.filters["understood"] != "all")
@@ -98,4 +106,4 @@ function readSQL(file) {
   return new pgp.QueryFile(fullPath, { minify: true });
 }
 
-module.exports = { FilterSetThemes, FilterSetProvinces, readSQL };
+module.exports = { FilterSetGeneral, FilterSetProvinces, readSQL };
