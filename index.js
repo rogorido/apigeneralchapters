@@ -36,6 +36,7 @@ app.use(
       "https://dbg.georeligion.org",
       "http://localhost:8000",
       "http://localhost:8080",
+      "http://localhost:8081",
       "http://192.168.1.10:8080",
     ],
   })
@@ -45,9 +46,11 @@ app.get("/generaldata/", dbFunctions.getGeneralData);
 app.get("/themes/", dbFunctions.getThemesList);
 app.get("/themes/stats/", dbFunctions.getThemesStats);
 app.get("/themes/details/", dbFunctions.getThemesDetails);
+app.get("/themes/ordinationes/", dbFunctions.getThemesOrdinationes);
 app.get("/capgens/", dbFunctions.getCapGensStats);
 app.get("/resolutions/stats/", dbFunctions.getResolutionsTypesStats);
 app.get("/resolutions/lookagain/", dbFunctions.getResolutionsLookAgain);
+app.get("/resolutions/adddata/", dbFunctions.getResolutionsAddData);
 app.get("/resolutions/", dbFunctions.getResolutionsWithFilters);
 app.get("/resolutionsperprovince/", dbFunctions.getResolutionsWithProvinces);
 app.get("/sufragios/stats/", dbFunctions.getSufragiosStats);

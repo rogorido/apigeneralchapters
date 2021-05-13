@@ -26,6 +26,8 @@ const sqlCapGensStats = readSQL("../sql/1580/capgens_list_count.sql");
 const sqlResolutionsTypesStats = readSQL(
   "../sql/1580/resolutionstypes_list_count.sql"
 );
+const sqlResolutionsAddData = readSQL("../sql/1580/resolutions_adddata.sql");
+
 const sqlFindResolutionsWithFilters = readSQL(
   "../sql/1580/resolutions_with_filters.sql"
 );
@@ -75,6 +77,8 @@ const sqlAffiliationsDestinations = readSQL(
 );
 
 const sqlPenasStats = readSQL("../sql/1580/penas_stats.sql");
+
+const sqlThemesOrdinationes = readSQL("../sql/1580/themes_ordinationes.sql");
 
 async function getGeneralData(req, res) {
   const nResolutionsPerChapter = await db.query(sqlGeneralData);
@@ -127,6 +131,11 @@ async function getCapGensStats(req, res) {
 
 async function getResolutionsTypesStats(req, res) {
   const rowList = await db.query(sqlResolutionsTypesStats);
+  res.send(rowList);
+}
+
+async function getResolutionsAddData(req, res) {
+  const rowList = await db.query(sqlResolutionsAddData);
   res.send(rowList);
 }
 
@@ -278,6 +287,12 @@ async function getProvincesDetails(req, res) {
   res.send({ details: rowListDetails, themes: rowListDetailsThemes });
 }
 
+async function getThemesOrdinationes(req, res) {
+  const rowList = await db.query(sqlThemesOrdinationes);
+
+  res.send(rowList);
+}
+
 module.exports = {
   getGeneralData,
   getThemesList,
@@ -285,6 +300,7 @@ module.exports = {
   getThemesDetails,
   getCapGensStats,
   getResolutionsTypesStats,
+  getResolutionsAddData,
   getHousesOriginAffiliation,
   getHousesDestinationAffiliation,
   getResolutionsLookAgain,
@@ -300,4 +316,5 @@ module.exports = {
   getRetroStats,
   getAprobationsStats,
   getProvincesDetails,
+  getThemesOrdinationes,
 };

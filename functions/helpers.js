@@ -53,12 +53,16 @@ class FilterSetGeneral {
     // realmente solo comprobamos si es verdad
     if (this.filters.look_again == "true") f.push("look_again = ${look_again}");
 
+    // realmente solo comprobamos si es verdad
+    if (this.filters.ordinationes == "true")
+      f.push("small_title = 'Ordinationes'");
+
     if (this.filters["date_begin"])
       f.push("(date_beginning between ${date_begin} and ${date_end})");
 
     // hay que convertir el array q tenemos  en un string con and
     // pq es lo q pidepgp.as.format
-    let ff = f.join(" and ");
+    let ff = f.join(" AND ");
     let wheresql = pgp.as.format(ff, this.filters);
 
     // console.log(wheresql);
