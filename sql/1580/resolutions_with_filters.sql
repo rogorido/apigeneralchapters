@@ -8,11 +8,11 @@ WITH ch AS
  WHERE EXTRACT(YEAR FROM date_beginning) BETWEEN $1 AND $2),
 res AS (
   SELECT resolution_id,
-         theme_id,
+         ARRAY_AGG(theme_id) AS temas_ids,
          ARRAY_AGG(theme) AS temas_chips
   FROM resolutions_themes_1580
   JOIN themes USING (theme_id)
-  GROUP BY resolution_id, theme_id),
+  GROUP BY resolution_id),
 resprov AS (
   SELECT * FROM vistas.provinces_in_resolutions_1580
 )
@@ -22,9 +22,9 @@ SELECT resolution_id,
        r.small_title,
        ch.general_name AS chapter_name,
        EXTRACT(YEAR FROM ch.date_beginning) AS chapteryear,
-       theme_id, temas_chips
+       temas_ids, temas_chips
 FROM res
-JOIN resolutions_1580 r USING(resolution_id)
-JOIN ch ON ch.chapter_id = r.chapter
-JOIN resprov rp USING (resolution_id)
+LEFT JOIN resolutions_1580 r USING(resolution_id)
+LEFT JOIN ch ON ch.chapter_id = r.chapter
+LEFT JOIN resprov rp USING (resolution_id)
 WHERE $3
