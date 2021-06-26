@@ -26,17 +26,22 @@ class FilterSetGeneral {
     // que ponen en la docu, pq no puedo hacer un simple map.
     let f = [];
 
-    if ("theme" in this.filters) {
-      console.log("hay temas");
-      let temas = this.filters.theme.map((t) => "theme_id = " + t);
-      let temasstring = "";
-      if (this.filters.withand === "true") {
-        console.log("es verdadero el withand");
-        temasstring = "(" + temas.join(" AND ") + ")";
-      } else temasstring = "(" + temas.join(" OR ") + ")";
+    if (this.filters.theme) f.push("$(theme) && temas_ids");
 
-      f.push(temasstring);
-    }
+    // atención: esto es lo q uso para poder usar and/or pero ahora lo quito
+    // pq me d un lío y recupero lo anterior con array
+
+    // if ("theme" in this.filters) {
+    //   console.log("hay temas");
+    //   let temas = this.filters.theme.map((t) => "theme_id = " + t);
+    //   let temasstring = "";
+    //   if (this.filters.withand === "true") {
+    //     console.log("es verdadero el withand");
+    //     temasstring = "(" + temas.join(" AND ") + ")";
+    //   } else temasstring = "(" + temas.join(" OR ") + ")";
+
+    //   f.push(temasstring);
+    // }
 
     // lo de rp.province_id viene de que es una CTE que tiene como alias rp
     if ("province" in this.filters) {
