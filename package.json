@@ -1,10 +1,9 @@
 {
-  "name": "pg-node",
-  "version": "1.1.0",
-  "description": "",
+  "name": "domcapgens",
+  "version": "0.7.0",
+  "description": "API to get the resolutions of the general chapters of the Order of Preachers (1500-1800).",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node index.js",
     "dev": "nodemon -e js,sql,json index.js"
   },
