@@ -3,7 +3,14 @@
 
 const initOptions = {};
 const pgp = require("pg-promise")(initOptions);
-const db = pgp("postgres://igor@localhost:5432/dominicos");
+
+username = process.env.PG_USER;
+password = process.env.PG_PASSWORD;
+pgport = process.env.PGPORT;
+
+const db = pgp(
+  `postgres://${username}:${password}@localhost:${pgport}/dominicos`
+);
 
 const monitor = require("pg-monitor");
 monitor.attach(initOptions);

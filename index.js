@@ -5,10 +5,11 @@ const compression = require("compression");
 const rateLimit = require("express-rate-limit");
 const morgan = require("morgan");
 const cors = require("cors");
-//const dbFunctions = require("./functions/dbfunctions1580");
-const dbFunctions = require("./functions/dbfunctions1570");
 
 require("dotenv").config();
+
+//const dbFunctions = require("./functions/dbfunctions1580");
+const dbFunctions = require("./functions/dbfunctions1570");
 
 const app = express();
 app.use(morgan("tiny"));
@@ -35,6 +36,7 @@ app.use(
     origin: [
       "https://www.georeligion.org",
       "https://dbg.georeligion.org",
+      "https://beta.georeligion.org",
       "http://localhost:8000",
       "http://localhost:3000",
       "http://localhost:8080",
