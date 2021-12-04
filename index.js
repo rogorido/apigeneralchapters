@@ -52,6 +52,8 @@ app.get("/themes/stats/", dbFunctions.getThemesStats);
 app.get("/themes/details/", dbFunctions.getThemesDetails);
 app.get("/themes/ordinationes/", dbFunctions.getThemesOrdinationes);
 app.get("/capgens/", dbFunctions.getCapGensStats);
+app.get("/capgensperdecade/", dbFunctions.getChaptersPerDecade);
+app.get("/capgensperplaces/", dbFunctions.getChaptersPerPlaces);
 app.get("/resolutions/stats/", dbFunctions.getResolutionsTypesStats);
 app.get("/resolutions/lookagain/", dbFunctions.getResolutionsLookAgain);
 app.get("/resolutions/adddata/", dbFunctions.getResolutionsAddData);

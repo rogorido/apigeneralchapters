@@ -12,6 +12,7 @@ const { FilterSetGeneral, FilterSetProvinces, readSQL } = require("./helpers");
 // const sqlFindWork = readSQL("./sql/works.sql");
 
 const sqlGeneralData = readSQL("../sql/resolutions_per_chapter.sql");
+const sqlChaptersPerDecade = readSQL("../sql/chapters_per_decade.sql");
 const sqlThemesList = readSQL("../sql/themes_list.sql");
 const sqlThemesStats = readSQL("../sql/themes_list_count.sql");
 const sqlThemesDetails = readSQL("../sql/themes_details.sql");
@@ -113,6 +114,11 @@ async function getThemesDetails(req, res) {
 
 async function getCapGensStats(req, res) {
   const rowList = await db.query(sqlCapGensStats);
+  res.send(rowList);
+}
+
+async function getChaptersPerDecade(req, res) {
+  const rowList = await db.query(sqlChaptersPerDecade);
   res.send(rowList);
 }
 
@@ -260,6 +266,7 @@ module.exports = {
   getThemesStats,
   getThemesDetails,
   getCapGensStats,
+  getChaptersPerDecade,
   getResolutionsTypesStats,
   getHousesOriginAffiliation,
   getHousesDestinationAffiliation,
